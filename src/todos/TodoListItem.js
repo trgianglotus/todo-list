@@ -10,11 +10,16 @@ const TodoItemContainer = styled.div`
     box-shadow: 0 4px 8px grey;
 `;
 
+export const getBorderStyleForDate = (startingDate, currentDate) =>
+    (startingDate > new Date(currentDate - 86400000 * 5)
+        ? 'none'
+        : '2px solid red');
+
 const TodoItemContainerWithWarning = styled(TodoItemContainer)`
     border-bottom: ${props => (new Date(props.createdAt) > new Date(Date.now() - 8640000 * 5)
         ? 'none'
         : '2px solid red')};
-`
+`;
 
 const ButtonsContainer = styled.div`
     position: absolute;
@@ -26,32 +31,29 @@ const Button = styled.button`
     font-size: 16px;
     padding: 8px;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     outline: none;
     cursor: pointer;
     display: inline-block;
-    color: white;
 `;
 
 const CompletedButton = styled(Button)`
-    background-color: #2ed92e;
+    background-color: #22ee22;
 `;
 
 const RemoveButton = styled(Button)`
-    background-color: #e33229;
+    background-color: #ee2222;
     margin-left: 8px;
 `;
 
 const TodoListItem = ({ todo, onRemovePressed, onCompletedPressed }) => {
-
     const Container = todo.isCompleted ? TodoItemContainer : TodoItemContainerWithWarning;
-
     return (
         <Container createdAt={todo.createdAt}>
             <h3>{todo.text}</h3>
             <p>
                 Created at:&nbsp;
-            {(new Date(todo.createdAt)).toLocaleDateString()}
+                {(new Date(todo.createdAt)).toLocaleDateString()}
             </p>
             <ButtonsContainer>
                 {todo.isCompleted
@@ -64,7 +66,7 @@ const TodoListItem = ({ todo, onRemovePressed, onCompletedPressed }) => {
                     className="remove-button">Remove</RemoveButton>
             </ButtonsContainer>
         </Container>
-    )
-};
+    );
+}
 
 export default TodoListItem;
